@@ -1,0 +1,39 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Maven / Java build output
+**/target/
+**/out/
+
+# Java bytecode
+*.class
+
+# Package files
+*.jar
+*.war
+*.ear
+
+# Maven wrapper backup
+.mvn/wrapper/maven-wrapper.jar
+
+# IDE files
+.idea/
+*.iml
+
+# VS Code
+.vscode/
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# Temporary files
+*.tmp
+*.swp
+*~

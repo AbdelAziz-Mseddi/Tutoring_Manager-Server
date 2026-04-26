@@ -11,7 +11,7 @@ CREATE TABLE student (
   created_at   TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE class (
+CREATE TABLE tutoring_class (
   id           INT PRIMARY KEY AUTO_INCREMENT,
   name         VARCHAR(150) NOT NULL,
   subject      VARCHAR(100),
@@ -28,7 +28,7 @@ CREATE TABLE enrollment (
                  CHECK (status IN ('active', 'paused', 'completed')),
   UNIQUE (student_id, class_id),
   FOREIGN KEY (student_id) REFERENCES student(id) ON DELETE CASCADE,
-  FOREIGN KEY (class_id)   REFERENCES class(id)   ON DELETE CASCADE
+  FOREIGN KEY (class_id)   REFERENCES tutoring_class(id)   ON DELETE CASCADE
 );
 
 CREATE TABLE payment (
@@ -38,7 +38,7 @@ CREATE TABLE payment (
   notes        TEXT
 );
 
-CREATE TABLE session (
+CREATE TABLE tutoring_session (
   id             INT PRIMARY KEY AUTO_INCREMENT,
   enrollment_id  INT NOT NULL,
   payment_id     INT DEFAULT NULL,
@@ -56,6 +56,6 @@ CREATE TABLE session (
 
 CREATE INDEX idx_enrollment_student ON enrollment(student_id);
 CREATE INDEX idx_enrollment_class   ON enrollment(class_id);
-CREATE INDEX idx_session_enrollment ON session(enrollment_id);
-CREATE INDEX idx_session_payment    ON session(payment_id);
-CREATE INDEX idx_session_scheduled  ON session(scheduled_at);
+CREATE INDEX idx_session_enrollment ON tutoring_session(enrollment_id);
+CREATE INDEX idx_session_payment    ON tutoring_session(payment_id);
+CREATE INDEX idx_session_scheduled  ON tutoring_session(scheduled_at);
