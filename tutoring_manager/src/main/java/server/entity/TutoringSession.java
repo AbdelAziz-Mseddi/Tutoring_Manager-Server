@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+// TutoringSession entity storing scheduled session details.
 public class TutoringSession {
 
     @Id

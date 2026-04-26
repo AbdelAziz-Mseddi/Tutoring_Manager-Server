@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/students")
+// HTTP endpoints for student CRUD operations and pagination.
 public class StudentController {
 
     @Autowired

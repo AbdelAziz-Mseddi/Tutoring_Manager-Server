@@ -3,6 +3,17 @@
 ## Purpose
 Defines REST endpoints. Controllers parse HTTP input, delegate to services, and return HTTP responses.
 
+## Decorators Used Here
+
+- `@RestController`: makes the class a JSON-producing HTTP controller.
+- `@RequestMapping`: defines the base path for the controller.
+- `@Autowired`: injects the service dependency.
+- `@GetMapping`, `@PostMapping`, `@PutMapping`, `@PatchMapping`, `@DeleteMapping`: map methods to HTTP verbs.
+- `@RequestParam`: reads query parameters such as pagination inputs.
+- `@PathVariable`: reads values from the URL path.
+- `@RequestBody`: deserializes JSON into a DTO.
+- `@Valid`: validates the incoming DTO before the method runs.
+
 ## Classes
 - `StudentController`
 - `TutoringClassController`

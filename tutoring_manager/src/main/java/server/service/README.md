@@ -3,6 +3,11 @@
 ## Purpose
 Implements business logic between controllers and repositories.
 
+## Decorators Used Here
+
+- `@Service`: marks a class as a business-layer Spring bean.
+- `@Autowired`: injects the repository dependency used by the service.
+
 ## Classes
 - `StudentService`
 - `TutoringClassService`

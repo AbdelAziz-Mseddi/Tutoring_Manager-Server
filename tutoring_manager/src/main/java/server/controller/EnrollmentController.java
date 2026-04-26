@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/enrollments")
+// HTTP endpoints for enrollment CRUD operations, status updates, and pagination.
 public class EnrollmentController {
 
     @Autowired

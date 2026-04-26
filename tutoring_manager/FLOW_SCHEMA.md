@@ -1,0 +1,61 @@
+# Tutoring Manager - End-to-End Flow Schema
+
+This diagram shows how an HTTP request moves through each backend subdirectory.
+
+```mermaid
+flowchart TD
+    Client[Web or Mobile Client]
+    Port[Embedded Tomcat on port 8080]
+    Dispatcher[Spring DispatcherServlet]
+
+    Main[server/Main.java]
+    Config[server/config\nCorsConfig]
+    Controller[server/controller\n*Controller classes]
+    DtoIn[server/dto\n*Request DTO]
+    Service[server/service\n*Service classes]
+    Repository[server/repository\n*Repository interfaces]
+    Entity[server/entity\n*Entity classes]
+    DB[(H2 Database)]
+
+    Exception[server/exception\nGlobalExceptionHandler\nErrorResponse]
+    DtoOut[server/dto\n*Response DTO]
+    Json[JSON HTTP Response]
+
+    Props[src/main/resources\napplication.properties]
+
+    Main --> Port
+    Props --> Port
+    Config --> Dispatcher
+
+    Client --> Port --> Dispatcher --> Controller
+    Controller --> DtoIn
+    Controller --> Service
+    Service --> Repository --> Entity --> DB
+    DB --> Entity --> Repository --> Service
+    Service --> DtoOut --> Controller --> Json --> Client
+
+    Controller -. validation/business/runtime error .-> Exception
+    Service -. runtime error .-> Exception
+    Exception --> Json
+```
+
+## Quick Role of Each Subdirectory
+
+- `server/config`: Cross-cutting configuration (CORS, MVC behavior).
+- `server/controller`: HTTP route handlers and request entry points.
+- `server/dto`: Input/output payload contracts (`Request` and `Response`).
+- `server/service`: Business logic and orchestration.
+- `server/repository`: Data access layer through Spring Data JPA.
+- `server/entity`: Database table mapping models.
+- `server/exception`: Centralized error-to-HTTP-response mapping.
+
+## End-to-End Summary
+
+1. A request arrives on port `8080`.
+2. `DispatcherServlet` routes to the matching controller method.
+3. Controller validates/deserializes request DTO.
+4. Service executes business logic.
+5. Repository loads/saves entities in H2.
+6. Service maps entity data into response DTO.
+7. Controller returns JSON.
+8. If any error occurs, `GlobalExceptionHandler` formats a consistent error response.

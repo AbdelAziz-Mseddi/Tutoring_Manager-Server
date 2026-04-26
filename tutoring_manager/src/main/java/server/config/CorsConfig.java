@@ -5,6 +5,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
+// Global CORS configuration so web and mobile clients can call the API from other origins.
 public class CorsConfig implements WebMvcConfigurer {
 
     @Override

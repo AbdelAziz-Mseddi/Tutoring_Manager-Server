@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+// Response DTO returned for tutoring session data.
 public class TutoringSessionResponse {
     private Integer id;
     private Integer enrollmentId;

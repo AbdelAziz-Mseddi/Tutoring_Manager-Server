@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+// Response DTO returned for student data.
 public class StudentResponse {
     private Integer id;
     private String firstName;

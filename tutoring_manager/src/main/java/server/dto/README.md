@@ -3,6 +3,13 @@
 ## Purpose
 Defines API payload contracts to keep external JSON models separate from persistence entities.
 
+## Decorators Used Here
+
+- `@Data`: generates getters, setters, `toString`, `equals`, and `hashCode`.
+- `@NoArgsConstructor`: creates a no-argument constructor.
+- `@AllArgsConstructor`: creates a constructor with all fields.
+- `@NotBlank`, `@NotNull`, `@Email`, `@DecimalMin`, `@Min`: validate incoming request data.
+
 ## Classes
 - `StudentRequest`, `StudentResponse`
 - `TutoringClassRequest`, `TutoringClassResponse`
@@ -11,13 +18,13 @@ Defines API payload contracts to keep external JSON models separate from persist
 - `TutoringSessionRequest`, `TutoringSessionResponse`
 
 ## Class Details
-- `StudentRequest`: Input fields and validation for create/update student operations.
+- `StudentRequest`: Input fields for create/update student operations.
 - `StudentResponse`: Output fields returned for student resources.
-- `TutoringClassRequest`: Input fields and validation for class create/update operations.
+- `TutoringClassRequest`: Input fields for create/update class operations.
 - `TutoringClassResponse`: Output fields returned for class resources.
 - `EnrollmentRequest`: Input for enrollment create/update (student, class, status/date).
 - `EnrollmentResponse`: Output representation of enrollment data.
-- `PaymentRequest`: Input for payment create/update with amount validation.
+- `PaymentRequest`: Input for payment create/update.
 - `PaymentResponse`: Output representation of payment data.
 - `TutoringSessionRequest`: Input for session scheduling and updates.
 - `TutoringSessionResponse`: Output representation of session data.

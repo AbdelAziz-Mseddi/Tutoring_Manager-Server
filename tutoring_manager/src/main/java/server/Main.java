@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.info.Info;
                 description = "REST API for the Tutoring Manager application - manage students, classes, enrollments, sessions, and payments"
         )
 )
+// Application entry point for the tutoring manager REST API.
 public class Main {
     public static void main(String[] args) {
         SpringApplication.run(Main.class, args);

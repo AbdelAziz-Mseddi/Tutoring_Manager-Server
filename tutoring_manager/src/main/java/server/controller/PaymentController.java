@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/payments")
+// HTTP endpoints for payment CRUD operations and pagination.
 public class PaymentController {
 
     @Autowired

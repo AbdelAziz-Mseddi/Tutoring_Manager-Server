@@ -9,6 +9,7 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+// Response DTO returned for enrollment data.
 public class EnrollmentResponse {
     private Integer id;
     private Integer studentId;

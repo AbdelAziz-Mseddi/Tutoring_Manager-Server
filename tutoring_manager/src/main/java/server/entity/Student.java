@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+// Student entity mapped to the student table.
 public class Student {
 
     @Id

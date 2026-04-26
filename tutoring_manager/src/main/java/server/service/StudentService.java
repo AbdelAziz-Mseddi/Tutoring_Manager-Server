@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
+// Business logic for student operations and DTO mapping.
 public class StudentService {
 
     @Autowired

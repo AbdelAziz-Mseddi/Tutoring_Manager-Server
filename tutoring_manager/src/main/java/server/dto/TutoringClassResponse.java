@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+// Response DTO returned for tutoring class data.
 public class TutoringClassResponse {
     private Integer id;
     private String name;

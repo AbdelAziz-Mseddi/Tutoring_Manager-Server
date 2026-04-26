@@ -3,6 +3,20 @@
 ## Purpose
 Maps Java classes to database tables using JPA annotations.
 
+## Decorators Used Here
+
+- `@Entity`: marks a class as a JPA entity.
+- `@Table`: sets the database table name.
+- `@Id`: marks the primary key field.
+- `@GeneratedValue`: configures automatic ID generation.
+- `@Column`: defines column constraints and metadata.
+- `@ManyToOne`: declares a many-to-one relationship.
+- `@JoinColumn`: maps the relationship to a foreign key column.
+- `@CreationTimestamp`: fills the timestamp automatically on insert.
+- `@PrePersist`: runs just before inserting a new entity.
+- `@Data`, `@NoArgsConstructor`, `@AllArgsConstructor`: Lombok helpers that generate boilerplate methods and constructors.
+- `@NotBlank`, `@NotNull`, `@Email`, `@DecimalMin`, `@Min`: validation annotations for entity input rules.
+
 ## Classes
 - `Student`
 - `TutoringClass`

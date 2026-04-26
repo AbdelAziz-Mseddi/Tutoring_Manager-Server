@@ -10,6 +10,7 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+// Request DTO for creating or updating an enrollment.
 public class EnrollmentRequest {
     @NotNull(message = "Student ID is required")
     private Integer studentId;

@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
+// Business logic for tutoring class operations and DTO mapping.
 public class TutoringClassService {
 
     @Autowired

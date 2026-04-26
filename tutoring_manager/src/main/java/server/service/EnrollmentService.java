@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 
 @Service
+// Business logic for enrollments, including defaults, validation, and DTO mapping.
 public class EnrollmentService {
 
     @Autowired

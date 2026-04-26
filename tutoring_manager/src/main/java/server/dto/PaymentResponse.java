@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+// Response DTO returned for payment data.
 public class PaymentResponse {
     private Integer id;
     private BigDecimal totalAmount;

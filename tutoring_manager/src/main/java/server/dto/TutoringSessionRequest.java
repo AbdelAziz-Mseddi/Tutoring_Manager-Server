@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+// Request DTO for creating or updating a tutoring session.
 public class TutoringSessionRequest {
     @NotNull(message = "Enrollment ID is required")
     private Integer enrollmentId;

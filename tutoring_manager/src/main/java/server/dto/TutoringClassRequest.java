@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+// Request DTO for creating or updating a tutoring class.
 public class TutoringClassRequest {
     @NotBlank(message = "Class name is required")
     private String name;

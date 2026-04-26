@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+// TutoringClass entity mapped to the tutoring_class table.
 public class TutoringClass {
 
     @Id

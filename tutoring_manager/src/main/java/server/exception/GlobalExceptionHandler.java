@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
+// Global exception handler that converts Java exceptions into HTTP responses.
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)

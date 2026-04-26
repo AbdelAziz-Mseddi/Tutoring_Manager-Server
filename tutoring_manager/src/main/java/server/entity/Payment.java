@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+// Payment entity storing payment details and metadata.
 public class Payment {
 
     @Id

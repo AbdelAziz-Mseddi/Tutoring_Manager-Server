@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/tutoring-classes")
+// HTTP endpoints for tutoring class CRUD operations and pagination.
 public class TutoringClassController {
 
     @Autowired

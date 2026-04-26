@@ -3,6 +3,14 @@
 ## Purpose
 Provides persistence access via Spring Data JPA interfaces.
 
+## Decorators Used Here
+
+- `@Repository`: marks the interface as a Spring data access bean.
+
+## Reused Behavior
+
+All repositories extend `JpaRepository`, which already provides the common CRUD methods (`findAll`, `findById`, `save`, `deleteById`).
+
 ## Classes
 - `StudentRepository`
 - `TutoringClassRepository`
@@ -16,6 +24,3 @@ Provides persistence access via Spring Data JPA interfaces.
 - `EnrollmentRepository`: CRUD and query support for `Enrollment` entities.
 - `PaymentRepository`: CRUD and query support for `Payment` entities.
 - `TutoringSessionRepository`: CRUD and query support for `TutoringSession` entities.
-
-## Notes
-These interfaces inherit standard methods (`findAll`, `findById`, `save`, `deleteById`) from `JpaRepository`.

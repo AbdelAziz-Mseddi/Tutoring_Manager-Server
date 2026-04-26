@@ -3,6 +3,13 @@
 ## Purpose
 Centralizes API error structure and exception handling behavior.
 
+## Decorators Used Here
+
+- `@Data`: generates getters, setters, and utility methods for the error payload.
+- `@AllArgsConstructor`: creates the constructor used to build the error payload.
+- `@RestControllerAdvice`: applies global exception handling to all controllers and returns JSON.
+- `@ExceptionHandler`: maps a specific exception type to a response handler method.
+
 ## Classes
 - `ErrorResponse`
 - `GlobalExceptionHandler`

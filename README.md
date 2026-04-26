@@ -7,6 +7,25 @@ Server-side REST API for managing students, classes, enrollments, tutoring sessi
 - `tutoring_manager/`: Spring Boot application (Maven)
 - `DB.sql`: SQL schema reference
 
+## Architecture Flow
+
+```mermaid
+flowchart LR
+	Client[Client App] --> Tomcat[Embedded Tomcat]
+	Tomcat --> Dispatcher[DispatcherServlet]
+	Dispatcher --> Controller[controller]
+	Controller --> Service[service]
+	Service --> Repository[repository]
+	Repository --> Entity[entity]
+	Entity --> DB[(H2)]
+	Service --> DTO[dto response]
+	DTO --> Client
+	Controller --> Exception[exception handler]
+	Exception --> Client
+```
+
+For the full end-to-end diagram and package responsibilities, see `tutoring_manager/FLOW_SCHEMA.md`.
+
 ## Tech Stack
 
 - Java 21

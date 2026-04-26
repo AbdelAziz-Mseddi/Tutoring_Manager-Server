@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+// Enrollment entity linking a student to a tutoring class.
 public class Enrollment {
 
     @Id
