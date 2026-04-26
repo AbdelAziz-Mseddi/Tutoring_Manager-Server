@@ -1,0 +1,37 @@
+Tutoring Manager - API Endpoints
+Base path: none (no /api prefix)
+
+Students
+GET /students - List all students.
+GET /students/{id} - Get one student by ID.
+POST /students - Create a new student.
+PUT /students/{id} - Update an existing student.
+DELETE /students/{id} - Delete a student.
+
+Classes
+GET /classes - List all classes.
+GET /classes/{id} - Get one class by ID.
+POST /classes - Create a new class.
+PUT /classes/{id} - Update an existing class.
+DELETE /classes/{id} - Delete a class.
+
+Enrollments
+GET /enrollments - List all enrollments.
+GET /enrollments/{id} - Get one enrollment by ID.
+POST /enrollments - Enroll a student in a class.
+PATCH /enrollments/{id}/status - Change enrollment status.
+DELETE /enrollments/{id} - Remove an enrollment.
+
+Sessions
+GET /sessions - List sessions (optionally filter by dates/student/class).
+GET /sessions/{id} - Get one tutoring session by ID.
+POST /sessions - Schedule a new tutoring session.
+PUT /sessions/{id} - Update session details.
+DELETE /sessions/{id} - Delete a tutoring session.
+
+Payments
+GET /payments - List all payments.
+GET /payments/{id} - Get one payment by ID.
+POST /payments - Create a payment record.
+PATCH /sessions/{id}/payment/{paymentId} - Attach a payment to a session.
+PATCH /sessions/{id}/payment - Detach payment from a session.
