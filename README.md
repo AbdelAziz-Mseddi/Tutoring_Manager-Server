@@ -4,7 +4,8 @@ Server-side REST API for managing students, classes, enrollments, tutoring sessi
 
 ## Project Structure
 
-- `tutoring_manager/`: Spring Boot application (Maven)
+- `pom.xml`: Spring Boot Maven project root
+- `src/`: Java source code and resources
 - `DB.sql`: SQL schema reference
 
 ## Architecture Flow
@@ -24,7 +25,7 @@ flowchart LR
 	Exception --> Client
 ```
 
-For the full end-to-end diagram and package responsibilities, see `tutoring_manager/FLOW_SCHEMA.md`.
+For the full end-to-end diagram and package responsibilities, see `FLOW_SCHEMA.md`.
 
 ## Tech Stack
 
@@ -43,7 +44,6 @@ For the full end-to-end diagram and package responsibilities, see `tutoring_mana
 2. Start the API:
 
 ```bash
-cd tutoring_manager
 mvn spring-boot:run
 ```
 
@@ -69,21 +69,20 @@ The app currently uses H2 in-memory DB and creates schema on startup via JPA:
 
 Configuration file:
 
-- `tutoring_manager/src/main/resources/application.properties`
+- `src/main/resources/application.properties`
 
 ## Endpoints
 
 Endpoint lists are available in:
 
-- `tutoring_manager/API_ENDPOINTS.txt`
-- `tutoring_manager/API_ENDPOINTS_REPORT.txt`
+- `API_ENDPOINTS.txt`
+- `API_ENDPOINTS_REPORT.txt`
 
 The API does not use a `/api` prefix (endpoints are like `/students`, `/payments`, etc.).
 
 ## Build
 
 ```bash
-cd tutoring_manager
 mvn clean compile
 ```
 

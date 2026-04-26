@@ -8,17 +8,17 @@ flowchart TD
     Port[Embedded Tomcat on port 8080]
     Dispatcher[Spring DispatcherServlet]
 
-    Main[server/Main.java]
-    Config[server/config\nCorsConfig]
-    Controller[server/controller\n*Controller classes]
-    DtoIn[server/dto\n*Request DTO]
-    Service[server/service\n*Service classes]
-    Repository[server/repository\n*Repository interfaces]
-    Entity[server/entity\n*Entity classes]
+    Main[src/main/java/server/Main.java]
+    Config[src/main/java/server/config\nCorsConfig]
+    Controller[src/main/java/server/controller\n*Controller classes]
+    DtoIn[src/main/java/server/dto\n*Request DTO]
+    Service[src/main/java/server/service\n*Service classes]
+    Repository[src/main/java/server/repository\n*Repository interfaces]
+    Entity[src/main/java/server/entity\n*Entity classes]
     DB[(H2 Database)]
 
-    Exception[server/exception\nGlobalExceptionHandler\nErrorResponse]
-    DtoOut[server/dto\n*Response DTO]
+    Exception[src/main/java/server/exception\nGlobalExceptionHandler\nErrorResponse]
+    DtoOut[src/main/java/server/dto\n*Response DTO]
     Json[JSON HTTP Response]
 
     Props[src/main/resources\napplication.properties]
@@ -41,13 +41,13 @@ flowchart TD
 
 ## Quick Role of Each Subdirectory
 
-- `server/config`: Cross-cutting configuration (CORS, MVC behavior).
-- `server/controller`: HTTP route handlers and request entry points.
-- `server/dto`: Input/output payload contracts (`Request` and `Response`).
-- `server/service`: Business logic and orchestration.
-- `server/repository`: Data access layer through Spring Data JPA.
-- `server/entity`: Database table mapping models.
-- `server/exception`: Centralized error-to-HTTP-response mapping.
+- `src/main/java/server/config`: Cross-cutting configuration (CORS, MVC behavior).
+- `src/main/java/server/controller`: HTTP route handlers and request entry points.
+- `src/main/java/server/dto`: Input/output payload contracts (`Request` and `Response`).
+- `src/main/java/server/service`: Business logic and orchestration.
+- `src/main/java/server/repository`: Data access layer through Spring Data JPA.
+- `src/main/java/server/entity`: Database table mapping models.
+- `src/main/java/server/exception`: Centralized error-to-HTTP-response mapping.
 
 ## End-to-End Summary
 
