@@ -2,6 +2,7 @@ package server.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 // Request DTO for creating or updating a student.
 public class StudentRequest {
+    @NotNull(message = "User ID is required")
+    private Integer userId;
+
     @NotBlank(message = "First name is required")
     private String firstName;
 

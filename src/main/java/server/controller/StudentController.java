@@ -22,10 +22,11 @@ public class StudentController {
 
     @GetMapping
     public ResponseEntity<Page<StudentResponse>> getAllStudents(
+            @RequestParam Integer userId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(studentService.getAllStudents(pageable));
+        return ResponseEntity.ok(studentService.getAllStudents(userId, pageable));
     }
 
     @GetMapping("/{id}")

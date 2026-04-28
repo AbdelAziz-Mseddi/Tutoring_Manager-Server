@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 // Response DTO returned for student data.
 public class StudentResponse {
     private Integer id;
+    private Integer userId;
     private String firstName;
     private String lastName;
     private String phone;

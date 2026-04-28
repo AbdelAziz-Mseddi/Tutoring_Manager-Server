@@ -3,7 +3,9 @@ package server.service;
 import server.dto.TutoringClassRequest;
 import server.dto.TutoringClassResponse;
 import server.entity.TutoringClass;
+import server.entity.User;
 import server.repository.TutoringClassRepository;
+import server.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,8 +18,11 @@ public class TutoringClassService {
     @Autowired
     private TutoringClassRepository tutoringClassRepository;
 
-    public Page<TutoringClassResponse> getAllClasses(Pageable pageable) {
-        return tutoringClassRepository.findAll(pageable)
+    @Autowired
+    private UserRepository userRepository;
+
+    public Page<TutoringClassResponse> getAllClasses(Integer userId, Pageable pageable) {
+        return tutoringClassRepository.findAllByUser_Id(userId, pageable)
                 .map(this::toResponse);
     }
 
@@ -28,7 +33,10 @@ public class TutoringClassService {
     }
 
     public TutoringClassResponse createClass(TutoringClassRequest request) {
+        User user = userRepository.findById(request.getUserId())
+                .orElseThrow(() -> new RuntimeException("User not found with ID: " + request.getUserId()));
         TutoringClass tutoringClass = new TutoringClass();
+        tutoringClass.setUser(user);
         tutoringClass.setName(request.getName());
         tutoringClass.setSubject(request.getSubject());
         tutoringClass.setHourlyRate(request.getHourlyRate());
@@ -38,6 +46,9 @@ public class TutoringClassService {
     public TutoringClassResponse updateClass(Integer id, TutoringClassRequest request) {
         TutoringClass tutoringClass = tutoringClassRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Class not found with ID: " + id));
+        User user = userRepository.findById(request.getUserId())
+                .orElseThrow(() -> new RuntimeException("User not found with ID: " + request.getUserId()));
+        tutoringClass.setUser(user);
         tutoringClass.setName(request.getName());
         tutoringClass.setSubject(request.getSubject());
         tutoringClass.setHourlyRate(request.getHourlyRate());
@@ -54,6 +65,7 @@ public class TutoringClassService {
     private TutoringClassResponse toResponse(TutoringClass tutoringClass) {
         return new TutoringClassResponse(
                 tutoringClass.getId(),
+                tutoringClass.getUser().getId(),
                 tutoringClass.getName(),
                 tutoringClass.getSubject(),
                 tutoringClass.getHourlyRate(),

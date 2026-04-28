@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 // Response DTO returned for tutoring class data.
 public class TutoringClassResponse {
     private Integer id;
+    private Integer userId;
     private String name;
     private String subject;
     private BigDecimal hourlyRate;

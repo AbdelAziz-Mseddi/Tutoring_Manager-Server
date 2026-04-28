@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 // Response DTO returned for payment data.
 public class PaymentResponse {
     private Integer id;
+    private Integer userId;
     private BigDecimal totalAmount;
     private LocalDateTime paidAt;
     private String notes;

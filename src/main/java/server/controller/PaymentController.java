@@ -22,10 +22,11 @@ public class PaymentController {
 
     @GetMapping
     public ResponseEntity<Page<PaymentResponse>> getAllPayments(
+            @RequestParam Integer userId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(paymentService.getAllPayments(pageable));
+        return ResponseEntity.ok(paymentService.getAllPayments(userId, pageable));
     }
 
     @GetMapping("/{id}")

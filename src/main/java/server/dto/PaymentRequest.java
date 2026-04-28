@@ -13,6 +13,9 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 // Request DTO for creating or updating a payment.
 public class PaymentRequest {
+    @NotNull(message = "User ID is required")
+    private Integer userId;
+
     @NotNull(message = "Total amount is required")
     @DecimalMin(value = "0.0", message = "Total amount must be non-negative")
     private BigDecimal totalAmount;

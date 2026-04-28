@@ -22,10 +22,11 @@ public class TutoringClassController {
 
     @GetMapping
     public ResponseEntity<Page<TutoringClassResponse>> getAllClasses(
+            @RequestParam Integer userId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(tutoringClassService.getAllClasses(pageable));
+        return ResponseEntity.ok(tutoringClassService.getAllClasses(userId, pageable));
     }
 
     @GetMapping("/{id}")
