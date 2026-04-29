@@ -21,11 +21,11 @@ public class Enrollment {
     private Integer id;
 
     @NotNull(message = "Student ID is required")
-    @Column(nullable = false)
+    @Column(name = "student_id", nullable = false)
     private Integer studentId;
 
     @NotNull(message = "Class ID is required")
-    @Column(nullable = false)
+    @Column(name = "class_id", nullable = false)
     private Integer classId;
 
     @Column(nullable = false)

@@ -23,10 +23,10 @@ public class TutoringSession {
     private Integer id;
 
     @NotNull(message = "Enrollment ID is required")
-    @Column(nullable = false)
+    @Column(name = "enrollment_id", nullable = false)
     private Integer enrollmentId;
 
-    @Column
+    @Column(name = "payment_id")
     private Integer paymentId;
 
     @NotNull(message = "Scheduled date/time is required")
