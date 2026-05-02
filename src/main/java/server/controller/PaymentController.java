@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,31 +23,34 @@ public class PaymentController {
 
     @GetMapping
     public ResponseEntity<Page<PaymentResponse>> getAllPayments(
-            @RequestParam Integer userId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(paymentService.getAllPayments(userId, pageable));
+        return ResponseEntity.ok(paymentService.getAllPayments(getAuthenticatedUserId(), pageable));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<PaymentResponse> getPaymentById(@PathVariable Integer id) {
-        return ResponseEntity.ok(paymentService.getPaymentById(id));
+        return ResponseEntity.ok(paymentService.getPaymentById(id, getAuthenticatedUserId()));
     }
 
     @PostMapping
     public ResponseEntity<PaymentResponse> createPayment(@Valid @RequestBody PaymentRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(paymentService.createPayment(request));
+        return ResponseEntity.status(HttpStatus.CREATED).body(paymentService.createPayment(request, getAuthenticatedUserId()));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<PaymentResponse> updatePayment(@PathVariable Integer id, @Valid @RequestBody PaymentRequest request) {
-        return ResponseEntity.ok(paymentService.updatePayment(id, request));
+        return ResponseEntity.ok(paymentService.updatePayment(id, request, getAuthenticatedUserId()));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePayment(@PathVariable Integer id) {
-        paymentService.deletePayment(id);
+        paymentService.deletePayment(id, getAuthenticatedUserId());
         return ResponseEntity.noContent().build();
+    }
+
+    private Integer getAuthenticatedUserId() {
+        return (Integer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }

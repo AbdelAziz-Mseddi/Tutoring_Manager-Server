@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,31 +23,34 @@ public class StudentController {
 
     @GetMapping
     public ResponseEntity<Page<StudentResponse>> getAllStudents(
-            @RequestParam Integer userId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(studentService.getAllStudents(userId, pageable));
+        return ResponseEntity.ok(studentService.getAllStudents(getAuthenticatedUserId(), pageable));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<StudentResponse> getStudentById(@PathVariable Integer id) {
-        return ResponseEntity.ok(studentService.getStudentById(id));
+        return ResponseEntity.ok(studentService.getStudentById(id, getAuthenticatedUserId()));
     }
 
     @PostMapping
     public ResponseEntity<StudentResponse> createStudent(@Valid @RequestBody StudentRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(studentService.createStudent(request));
+        return ResponseEntity.status(HttpStatus.CREATED).body(studentService.createStudent(request, getAuthenticatedUserId()));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<StudentResponse> updateStudent(@PathVariable Integer id, @Valid @RequestBody StudentRequest request) {
-        return ResponseEntity.ok(studentService.updateStudent(id, request));
+        return ResponseEntity.ok(studentService.updateStudent(id, request, getAuthenticatedUserId()));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteStudent(@PathVariable Integer id) {
-        studentService.deleteStudent(id);
+        studentService.deleteStudent(id, getAuthenticatedUserId());
         return ResponseEntity.noContent().build();
+    }
+
+    private Integer getAuthenticatedUserId() {
+        return (Integer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }

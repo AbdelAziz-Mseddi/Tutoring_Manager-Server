@@ -9,8 +9,8 @@ import io.swagger.v3.oas.annotations.info.Info;
 @OpenAPIDefinition(
         info = @Info(
                 title = "Tutoring Manager API",
-                version = "1.0.0",
-                description = "REST API for the Tutoring Manager application - manage students, classes, enrollments, sessions, and payments"
+                version = "1.1.1",
+                description = "REST API for the Tutoring Manager application - manage users, students, classes, enrollments, sessions, and payments"
         )
 )
 // Application entry point for the tutoring manager REST API.

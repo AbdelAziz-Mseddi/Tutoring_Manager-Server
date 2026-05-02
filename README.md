@@ -13,7 +13,8 @@ Server-side REST API for managing students, classes, enrollments, tutoring sessi
 ```mermaid
 flowchart LR
 	Client[Client App] --> Tomcat[Embedded Tomcat]
-	Tomcat --> Dispatcher[DispatcherServlet]
+	Tomcat --> Security[Spring Security\nJwtAuthFilter]
+	Security --> Dispatcher[DispatcherServlet]
 	Dispatcher --> Controller[controller]
 	Controller --> Service[service]
 	Service --> Repository[repository]
@@ -32,8 +33,9 @@ For the full end-to-end diagram and package responsibilities, see `FLOW_SCHEMA.m
 - Java 21
 - Spring Boot 3
 - Spring Web (REST)
+- Spring Security 6 + JWT (jjwt 0.12)
 - Spring Data JPA
-- H2 Database
+- H2 Database (in-memory)
 - Maven
 - Bean Validation
 - OpenAPI/Swagger
@@ -53,6 +55,14 @@ mvn spring-boot:run
 http://localhost:8080
 ```
 
+## Authentication
+
+The API uses JWT Bearer tokens. Obtain a token via `/auth/register` or `/auth/login`, then include it in all subsequent requests:
+
+```
+Authorization: Bearer <token>
+```
+
 ## API Documentation
 
 Swagger UI is available at:
@@ -63,7 +73,7 @@ http://localhost:8080/swagger-ui.html
 
 ## Database Configuration
 
-The app currently uses H2 in-memory DB and creates schema on startup via JPA:
+The app uses an H2 in-memory database. Schema is created on every startup and data resets when the app stops.
 
 - `spring.jpa.hibernate.ddl-auto=create`
 
@@ -71,14 +81,13 @@ Configuration file:
 
 - `src/main/resources/application.properties`
 
+H2 console (for debugging): `http://localhost:8080/h2-console`
+
 ## Endpoints
 
-Endpoint lists are available in:
+Full endpoint list with request/response details: `API_ENDPOINTS.txt`
 
-- `API_ENDPOINTS.txt`
-- `API_ENDPOINTS_REPORT.txt`
-
-The API does not use a `/api` prefix (endpoints are like `/students`, `/payments`, etc.).
+The API does not use a `/api` prefix (endpoints are like `/auth/login`, `/students`, `/payments`, etc.).
 
 ## Build
 
@@ -90,4 +99,5 @@ mvn clean compile
 
 - CORS is enabled for all origins.
 - Delete operations are hard deletes.
-- Pagination is supported on list endpoints using query params such as `page` and `size`.
+- Pagination is supported on all list endpoints via `page` and `size` query params.
+- `userId` is never passed by the client — it is derived from the JWT token on every request.

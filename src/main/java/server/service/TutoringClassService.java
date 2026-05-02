@@ -4,6 +4,7 @@ import server.dto.TutoringClassRequest;
 import server.dto.TutoringClassResponse;
 import server.entity.TutoringClass;
 import server.entity.User;
+import server.exception.ForbiddenException;
 import server.repository.TutoringClassRepository;
 import server.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,15 +27,16 @@ public class TutoringClassService {
                 .map(this::toResponse);
     }
 
-    public TutoringClassResponse getClassById(Integer id) {
+    public TutoringClassResponse getClassById(Integer id, Integer userId) {
         TutoringClass tutoringClass = tutoringClassRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Class not found with ID: " + id));
+        verifyOwnership(tutoringClass.getUser().getId(), userId);
         return toResponse(tutoringClass);
     }
 
-    public TutoringClassResponse createClass(TutoringClassRequest request) {
-        User user = userRepository.findById(request.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found with ID: " + request.getUserId()));
+    public TutoringClassResponse createClass(TutoringClassRequest request, Integer userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
         TutoringClass tutoringClass = new TutoringClass();
         tutoringClass.setUser(user);
         tutoringClass.setName(request.getName());
@@ -43,23 +45,27 @@ public class TutoringClassService {
         return toResponse(tutoringClassRepository.save(tutoringClass));
     }
 
-    public TutoringClassResponse updateClass(Integer id, TutoringClassRequest request) {
+    public TutoringClassResponse updateClass(Integer id, TutoringClassRequest request, Integer userId) {
         TutoringClass tutoringClass = tutoringClassRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Class not found with ID: " + id));
-        User user = userRepository.findById(request.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found with ID: " + request.getUserId()));
-        tutoringClass.setUser(user);
+        verifyOwnership(tutoringClass.getUser().getId(), userId);
         tutoringClass.setName(request.getName());
         tutoringClass.setSubject(request.getSubject());
         tutoringClass.setHourlyRate(request.getHourlyRate());
         return toResponse(tutoringClassRepository.save(tutoringClass));
     }
 
-    public void deleteClass(Integer id) {
-        if (!tutoringClassRepository.existsById(id)) {
-            throw new RuntimeException("Class not found with ID: " + id);
-        }
+    public void deleteClass(Integer id, Integer userId) {
+        TutoringClass tutoringClass = tutoringClassRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Class not found with ID: " + id));
+        verifyOwnership(tutoringClass.getUser().getId(), userId);
         tutoringClassRepository.deleteById(id);
+    }
+
+    private void verifyOwnership(Integer resourceUserId, Integer authenticatedUserId) {
+        if (!resourceUserId.equals(authenticatedUserId)) {
+            throw new ForbiddenException("Access denied");
+        }
     }
 
     private TutoringClassResponse toResponse(TutoringClass tutoringClass) {

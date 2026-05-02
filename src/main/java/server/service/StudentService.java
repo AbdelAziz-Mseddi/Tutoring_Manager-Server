@@ -4,6 +4,7 @@ import server.dto.StudentRequest;
 import server.dto.StudentResponse;
 import server.entity.Student;
 import server.entity.User;
+import server.exception.ForbiddenException;
 import server.repository.StudentRepository;
 import server.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,15 +27,16 @@ public class StudentService {
                 .map(this::toResponse);
     }
 
-    public StudentResponse getStudentById(Integer id) {
+    public StudentResponse getStudentById(Integer id, Integer userId) {
         Student student = studentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Student not found with ID: " + id));
+        verifyOwnership(student.getUser().getId(), userId);
         return toResponse(student);
     }
 
-    public StudentResponse createStudent(StudentRequest request) {
-        User user = userRepository.findById(request.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found with ID: " + request.getUserId()));
+    public StudentResponse createStudent(StudentRequest request, Integer userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
         Student student = new Student();
         student.setUser(user);
         student.setFirstName(request.getFirstName());
@@ -44,12 +46,10 @@ public class StudentService {
         return toResponse(studentRepository.save(student));
     }
 
-    public StudentResponse updateStudent(Integer id, StudentRequest request) {
+    public StudentResponse updateStudent(Integer id, StudentRequest request, Integer userId) {
         Student student = studentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Student not found with ID: " + id));
-        User user = userRepository.findById(request.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found with ID: " + request.getUserId()));
-        student.setUser(user);
+        verifyOwnership(student.getUser().getId(), userId);
         student.setFirstName(request.getFirstName());
         student.setLastName(request.getLastName());
         student.setPhone(request.getPhone());
@@ -57,11 +57,17 @@ public class StudentService {
         return toResponse(studentRepository.save(student));
     }
 
-    public void deleteStudent(Integer id) {
-        if (!studentRepository.existsById(id)) {
-            throw new RuntimeException("Student not found with ID: " + id);
-        }
+    public void deleteStudent(Integer id, Integer userId) {
+        Student student = studentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Student not found with ID: " + id));
+        verifyOwnership(student.getUser().getId(), userId);
         studentRepository.deleteById(id);
+    }
+
+    private void verifyOwnership(Integer resourceUserId, Integer authenticatedUserId) {
+        if (!resourceUserId.equals(authenticatedUserId)) {
+            throw new ForbiddenException("Access denied");
+        }
     }
 
     private StudentResponse toResponse(Student student) {
