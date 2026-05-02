@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: tutoring_db
+    environment:
+      POSTGRES_DB: tutoring_db
+      POSTGRES_USER: tutoring_user
+      POSTGRES_PASSWORD: tutoring_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
