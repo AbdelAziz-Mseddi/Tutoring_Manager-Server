@@ -9,9 +9,10 @@ Provides persistence access via Spring Data JPA interfaces.
 
 ## Reused Behavior
 
-All repositories extend `JpaRepository`, which already provides the common CRUD methods (`findAll`, `findById`, `save`, `deleteById`).
+All repositories extend `JpaRepository`, which already provides the common CRUD methods (`findAll`, `findById`, `save`, `deleteById`, `existsById`).
 
 ## Classes
+- `UserRepository`
 - `StudentRepository`
 - `TutoringClassRepository`
 - `EnrollmentRepository`
@@ -19,8 +20,9 @@ All repositories extend `JpaRepository`, which already provides the common CRUD 
 - `TutoringSessionRepository`
 
 ## Class Details
-- `StudentRepository`: CRUD and query support for `Student` entities.
-- `TutoringClassRepository`: CRUD and query support for `TutoringClass` entities.
-- `EnrollmentRepository`: CRUD and query support for `Enrollment` entities.
-- `PaymentRepository`: CRUD and query support for `Payment` entities.
-- `TutoringSessionRepository`: CRUD and query support for `TutoringSession` entities.
+- `UserRepository`: CRUD for `User` entities. Adds `findByEmail(String email)` used during login and duplicate-email checks at registration.
+- `StudentRepository`: CRUD for `Student` entities. Adds `findAllByUser_Id(Integer userId, Pageable)` to page-filter students by owner.
+- `TutoringClassRepository`: CRUD for `TutoringClass` entities. Adds `findAllByUser_Id(Integer userId, Pageable)` to page-filter classes by owner.
+- `EnrollmentRepository`: CRUD for `Enrollment` entities. Adds `findAllByStudent_User_Id(Integer userId, Pageable)` to page-filter enrollments by the owning user via the student relation.
+- `PaymentRepository`: CRUD for `Payment` entities. Adds `findAllByUser_Id(Integer userId, Pageable)` to page-filter payments by owner.
+- `TutoringSessionRepository`: CRUD for `TutoringSession` entities. Adds `findAllByEnrollment_Student_User_Id(Integer userId, Pageable)` to page-filter sessions by the owning user via the enrollment → student chain.

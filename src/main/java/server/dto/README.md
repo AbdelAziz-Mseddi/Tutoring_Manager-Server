@@ -11,6 +11,7 @@ Defines API payload contracts to keep external JSON models separate from persist
 - `@NotBlank`, `@NotNull`, `@Email`, `@DecimalMin`, `@Min`: validate incoming request data.
 
 ## Classes
+- `RegisterRequest`, `LoginRequest`, `AuthResponse`
 - `StudentRequest`, `StudentResponse`
 - `TutoringClassRequest`, `TutoringClassResponse`
 - `EnrollmentRequest`, `EnrollmentResponse`
@@ -18,16 +19,23 @@ Defines API payload contracts to keep external JSON models separate from persist
 - `TutoringSessionRequest`, `TutoringSessionResponse`
 
 ## Class Details
-- `StudentRequest`: Input fields for create/update student operations.
-- `StudentResponse`: Output fields returned for student resources.
-- `TutoringClassRequest`: Input fields for create/update class operations.
-- `TutoringClassResponse`: Output fields returned for class resources.
-- `EnrollmentRequest`: Input for enrollment create/update (student, class, status/date).
-- `EnrollmentResponse`: Output representation of enrollment data.
-- `PaymentRequest`: Input for payment create/update.
-- `PaymentResponse`: Output representation of payment data.
-- `TutoringSessionRequest`: Input for session scheduling and updates.
-- `TutoringSessionResponse`: Output representation of session data.
+
+**Auth**
+- `RegisterRequest`: firstName, lastName, email, password. Used by `POST /auth/register`.
+- `LoginRequest`: email, password. Used by `POST /auth/login`.
+- `AuthResponse`: token (JWT string), userId. Returned by both auth endpoints.
+
+**Domain resources**
+- `StudentRequest`: firstName, lastName, phone (optional), email (optional). No `userId` — derived from the JWT token.
+- `StudentResponse`: id, userId, firstName, lastName, phone, email, createdAt.
+- `TutoringClassRequest`: name, subject (optional), hourlyRate. No `userId` — derived from the JWT token.
+- `TutoringClassResponse`: id, userId, name, subject, hourlyRate, createdAt.
+- `EnrollmentRequest`: studentId, classId, enrolledAt (optional), status (optional).
+- `EnrollmentResponse`: id, studentId, classId, enrolledAt, status.
+- `PaymentRequest`: totalAmount, notes (optional). No `userId` — derived from the JWT token.
+- `PaymentResponse`: id, userId, totalAmount, paidAt, notes.
+- `TutoringSessionRequest`: enrollmentId, paymentId (optional), scheduledAt, durationMin (optional, defaults to 60), notes (optional).
+- `TutoringSessionResponse`: id, enrollmentId, paymentId, scheduledAt, durationMin, notes, createdAt.
 
 ## Why This Helps
-Using DTOs prevents accidental exposure of internal entity structure and gives better control over API evolution.
+Using DTOs prevents accidental exposure of internal entity structure (e.g., passwordHash) and gives better control over API evolution.

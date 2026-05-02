@@ -9,16 +9,17 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-// Request DTO for creating or updating a student.
-public class StudentRequest {
+public class RegisterRequest {
     @NotBlank(message = "First name is required")
     private String firstName;
 
     @NotBlank(message = "Last name is required")
     private String lastName;
 
-    private String phone;
-
     @Email(message = "Email should be valid")
+    @NotBlank(message = "Email is required")
     private String email;
+
+    @NotBlank(message = "Password is required")
+    private String password;
 }

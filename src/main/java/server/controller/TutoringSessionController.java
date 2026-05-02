@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,27 +26,31 @@ public class TutoringSessionController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(tutoringSessionService.getAllSessions(pageable));
+        return ResponseEntity.ok(tutoringSessionService.getAllSessions(getAuthenticatedUserId(), pageable));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<TutoringSessionResponse> getSessionById(@PathVariable Integer id) {
-        return ResponseEntity.ok(tutoringSessionService.getSessionById(id));
+        return ResponseEntity.ok(tutoringSessionService.getSessionById(id, getAuthenticatedUserId()));
     }
 
     @PostMapping
     public ResponseEntity<TutoringSessionResponse> createSession(@Valid @RequestBody TutoringSessionRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(tutoringSessionService.createSession(request));
+        return ResponseEntity.status(HttpStatus.CREATED).body(tutoringSessionService.createSession(request, getAuthenticatedUserId()));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<TutoringSessionResponse> updateSession(@PathVariable Integer id, @Valid @RequestBody TutoringSessionRequest request) {
-        return ResponseEntity.ok(tutoringSessionService.updateSession(id, request));
+        return ResponseEntity.ok(tutoringSessionService.updateSession(id, request, getAuthenticatedUserId()));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteSession(@PathVariable Integer id) {
-        tutoringSessionService.deleteSession(id);
+        tutoringSessionService.deleteSession(id, getAuthenticatedUserId());
         return ResponseEntity.noContent().build();
+    }
+
+    private Integer getAuthenticatedUserId() {
+        return (Integer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }

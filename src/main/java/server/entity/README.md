@@ -18,6 +18,7 @@ Maps Java classes to database tables using JPA annotations.
 - `@NotBlank`, `@NotNull`, `@Email`, `@DecimalMin`, `@Min`: validation annotations for entity input rules.
 
 ## Classes
+- `User`
 - `Student`
 - `TutoringClass`
 - `Enrollment`
@@ -25,12 +26,16 @@ Maps Java classes to database tables using JPA annotations.
 - `TutoringSession`
 
 ## Class Details
-- `Student`: Represents the `student` table with identity, personal info, and creation timestamp.
-- `TutoringClass`: Represents `tutoring_class` with class metadata and hourly rate.
+- `User`: Represents the `"user"` table (quoted because `user` is a reserved word in PostgreSQL). Stores firstName, lastName, unique email, passwordHash, and createdAt. The root owner of all domain resources.
+- `Student`: Represents the `student` table. Belongs to a `User` via `user_id`. Holds personal info and creation timestamp.
+- `TutoringClass`: Represents `tutoring_class`. Belongs to a `User` via `user_id`. Holds class metadata and hourly rate.
 - `Enrollment`: Represents `enrollment` linking `student_id` and `class_id`, including status and enrollment date.
-- `Payment`: Represents `payment` with amount, payment timestamp, and notes.
-- `TutoringSession`: Represents `tutoring_session`, linking enrollment/payment with schedule and duration.
+- `Payment`: Represents `payment`. Belongs to a `User` via `user_id`. Stores amount, payment timestamp, and notes.
+- `TutoringSession`: Represents `tutoring_session`, linking enrollment and optional payment with schedule and duration.
+
+## Ownership Model
+`User` is the root owner. `Student`, `TutoringClass`, and `Payment` have a direct `user_id` foreign key. `Enrollment` ownership is derived via its `student.user_id`. `TutoringSession` ownership is derived via its `enrollment.student.user_id`.
 
 ## Lifecycle Notes
-- `Enrollment` has `@PrePersist` defaults for `enrolledAt` and `status`.
-- `TutoringSession` has `@PrePersist` default for `durationMin`.
+- `Enrollment` has `@PrePersist` defaults for `enrolledAt` (today) and `status` ("active").
+- `TutoringSession` has `@PrePersist` default for `durationMin` (60 minutes).

@@ -1,41 +1,52 @@
 Tutoring Manager - API Endpoints
 Base path: none (no /api prefix)
 
+Authentication
+All endpoints except /auth/** require a JWT token in the Authorization header:
+  Authorization: Bearer <token>
+
+Auth
+POST /auth/register - Register a new user account. Returns token and userId.
+POST /auth/login    - Log in with email and password. Returns token and userId.
+
 Students
-GET /students?userId={userId}&page={page}&size={size} - List a user's students.
-GET /students/{id} - Get one student by ID.
-POST /students - Create a new student.
-PUT /students/{id} - Update an existing student.
-DELETE /students/{id} - Delete a student.
+GET    /students?page={page}&size={size} - List the authenticated user's students.
+GET    /students/{id}                    - Get one student by ID.
+POST   /students                         - Create a new student.
+PUT    /students/{id}                    - Update an existing student.
+DELETE /students/{id}                    - Delete a student.
 
 Tutoring classes
-GET /tutoring-classes?userId={userId}&page={page}&size={size} - List a user's classes.
-GET /tutoring-classes/{id} - Get one class by ID.
-POST /tutoring-classes - Create a new class.
-PUT /tutoring-classes/{id} - Update an existing class.
-DELETE /tutoring-classes/{id} - Delete a class.
+GET    /tutoring-classes?page={page}&size={size} - List the authenticated user's classes.
+GET    /tutoring-classes/{id}                    - Get one class by ID.
+POST   /tutoring-classes                         - Create a new class.
+PUT    /tutoring-classes/{id}                    - Update an existing class.
+DELETE /tutoring-classes/{id}                    - Delete a class.
 
 Enrollments
-GET /enrollments?page={page}&size={size} - List enrollments.
-GET /enrollments/{id} - Get one enrollment by ID.
-POST /enrollments - Enroll a student in a class.
-PUT /enrollments/{id} - Update an enrollment.
-PATCH /enrollments/{id}/status?status={status} - Change enrollment status.
-DELETE /enrollments/{id} - Remove an enrollment.
+GET    /enrollments?page={page}&size={size} - List enrollments belonging to the authenticated user's students.
+GET    /enrollments/{id}                    - Get one enrollment by ID.
+POST   /enrollments                         - Enroll a student in a class.
+PUT    /enrollments/{id}                    - Update an enrollment.
+PATCH  /enrollments/{id}/status?status={status} - Change enrollment status.
+DELETE /enrollments/{id}                    - Remove an enrollment.
 
 Tutoring sessions
-GET /tutoring-sessions?page={page}&size={size} - List sessions.
-GET /tutoring-sessions/{id} - Get one tutoring session by ID.
-POST /tutoring-sessions - Schedule a new tutoring session.
-PUT /tutoring-sessions/{id} - Update session details.
-DELETE /tutoring-sessions/{id} - Delete a tutoring session.
+GET    /tutoring-sessions?page={page}&size={size} - List sessions linked to the authenticated user's enrollments.
+GET    /tutoring-sessions/{id}                    - Get one tutoring session by ID.
+POST   /tutoring-sessions                         - Schedule a new tutoring session.
+PUT    /tutoring-sessions/{id}                    - Update session details.
+DELETE /tutoring-sessions/{id}                    - Delete a tutoring session.
 
 Payments
-GET /payments?userId={userId}&page={page}&size={size} - List a user's payments.
-GET /payments/{id} - Get one payment by ID.
-POST /payments - Create a payment record.
-PUT /payments/{id} - Update a payment record.
-DELETE /payments/{id} - Delete a payment record.
+GET    /payments?page={page}&size={size} - List the authenticated user's payments.
+GET    /payments/{id}                    - Get one payment by ID.
+POST   /payments                         - Create a payment record.
+PUT    /payments/{id}                    - Update a payment record.
+DELETE /payments/{id}                    - Delete a payment record.
 
 Notes
-The payment/session attach-detach endpoints shown in older docs are not implemented in the current controllers.
+- userId is derived from the JWT token and is never passed as a query param or request body field.
+- Accessing or modifying a resource owned by another user returns 403 Forbidden.
+- Missing or invalid token returns 401 Unauthorized.
+- Registering with an email already in use returns 409 Conflict.

@@ -15,6 +15,7 @@ Defines REST endpoints. Controllers parse HTTP input, delegate to services, and 
 - `@Valid`: validates the incoming DTO before the method runs.
 
 ## Classes
+- `AuthController`
 - `StudentController`
 - `TutoringClassController`
 - `EnrollmentController`
@@ -22,12 +23,14 @@ Defines REST endpoints. Controllers parse HTTP input, delegate to services, and 
 - `TutoringSessionController`
 
 ## Class Details
-- `StudentController`: Manages `/students` endpoints for list, get by ID, create, update, delete.
-- `TutoringClassController`: Manages `/tutoring-classes` endpoints for list, get by ID, create, update, delete.
-- `EnrollmentController`: Manages `/enrollments` endpoints for list, get by ID, create, update, delete, and `PATCH /{id}/status`.
-- `PaymentController`: Manages `/payments` endpoints for list, get by ID, create, update, delete.
-- `TutoringSessionController`: Manages `/tutoring-sessions` endpoints for list, get by ID, create, update, delete.
+- `AuthController`: Handles `/auth/register` (POST, public) and `/auth/login` (POST, public). Both return a JWT token and the user's ID. No authentication required.
+- `StudentController`: Manages `/students` endpoints for list, get by ID, create, update, delete. All routes are scoped to the authenticated user.
+- `TutoringClassController`: Manages `/tutoring-classes` endpoints for list, get by ID, create, update, delete. All routes are scoped to the authenticated user.
+- `EnrollmentController`: Manages `/enrollments` endpoints for list, get by ID, create, update, delete, and `PATCH /{id}/status`. Scoped to enrollments whose student belongs to the authenticated user.
+- `PaymentController`: Manages `/payments` endpoints for list, get by ID, create, update, delete. All routes are scoped to the authenticated user.
+- `TutoringSessionController`: Manages `/tutoring-sessions` endpoints for list, get by ID, create, update, delete. Scoped to sessions linked to the authenticated user's enrollments.
 
 ## Notes
-- All list endpoints support pagination with `page` and `size` query parameters.
+- All controllers (except `AuthController`) call `SecurityContextHolder.getContext().getAuthentication().getPrincipal()` to get the authenticated `userId` and pass it to the service.
+- All list endpoints support pagination with `page` and `size` query parameters. `userId` is never a query parameter — it comes from the token.
 - Validation is applied to request bodies using `@Valid`.
