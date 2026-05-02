@@ -1,4 +1,4 @@
-package test.java.server;
+package server;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
