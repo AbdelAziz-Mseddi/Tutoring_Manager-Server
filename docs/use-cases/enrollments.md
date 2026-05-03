@@ -9,6 +9,13 @@ Ownership is verified through the enrollment's student: `enrollment → student 
 
 **`GET /enrollments?page=0&size=20`**
 
+### Request
+
+```http
+GET /enrollments?page=0&size=20
+Authorization: Bearer <token>
+```
+
 ### What happens
 
 1. `EnrollmentController.getAllEnrollments()` reads `userId` from the `SecurityContext`
@@ -47,6 +54,13 @@ Ownership is verified through the enrollment's student: `enrollment → student 
 
 **`GET /enrollments/{id}`**
 
+### Request
+
+```http
+GET /enrollments/1
+Authorization: Bearer <token>
+```
+
 ### What happens
 
 1. Loads the enrollment — 404 if not found
@@ -79,9 +93,13 @@ Ownership is verified through the enrollment's student: `enrollment → student 
 
 **`POST /enrollments`**
 
-### Request body
+### Request
 
-```json
+```http
+POST /enrollments
+Authorization: Bearer <token>
+Content-Type: application/json
+
 {
   "studentId": 2,
   "classId": 1,
@@ -122,7 +140,22 @@ Same shape as UC-E2.
 
 **`PUT /enrollments/{id}`**
 
-Replaces all editable fields. Same request body and validations as UC-E3.
+### Request
+
+```http
+PUT /enrollments/1
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "studentId": 2,
+  "classId": 1,
+  "enrolledAt": "2024-01-20",
+  "status": "inactive"
+}
+```
+
+Replaces all editable fields. Same field validations as UC-E3.
 
 ### What happens
 
@@ -150,9 +183,14 @@ Same shape as UC-E2.
 
 **`PATCH /enrollments/{id}/status?status=inactive`**
 
-A lightweight endpoint to change just the status field without sending the full body.
+### Request
 
-### Query parameter
+```http
+PATCH /enrollments/1/status?status=inactive
+Authorization: Bearer <token>
+```
+
+A lightweight endpoint to change just the status field without sending the full body.
 
 | Param | Required | Example values |
 |---|---|---|
@@ -190,6 +228,13 @@ A lightweight endpoint to change just the status field without sending the full 
 ## UC-E6: Delete an enrollment
 
 **`DELETE /enrollments/{id}`**
+
+### Request
+
+```http
+DELETE /enrollments/1
+Authorization: Bearer <token>
+```
 
 ### What happens
 
