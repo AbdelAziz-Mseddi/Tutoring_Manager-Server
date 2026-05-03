@@ -11,6 +11,13 @@ A payment is a standalone record of money received. It can be linked to one or m
 
 **`GET /payments?page=0&size=20`**
 
+### Request
+
+```http
+GET /payments?page=0&size=20
+Authorization: Bearer <token>
+```
+
 ### What happens
 
 1. `PaymentController.getAllPayments()` reads `userId` from the `SecurityContext`
@@ -49,6 +56,13 @@ A payment is a standalone record of money received. It can be linked to one or m
 
 **`GET /payments/{id}`**
 
+### Request
+
+```http
+GET /payments/1
+Authorization: Bearer <token>
+```
+
 ### What happens
 
 1. Loads the payment — 404 if not found
@@ -81,9 +95,13 @@ A payment is a standalone record of money received. It can be linked to one or m
 
 **`POST /payments`**
 
-### Request body
+### Request
 
-```json
+```http
+POST /payments
+Authorization: Bearer <token>
+Content-Type: application/json
+
 {
   "totalAmount": 90.00,
   "notes": "3 sessions at 30/hr"
@@ -118,7 +136,20 @@ Same shape as UC-P2.
 
 **`PUT /payments/{id}`**
 
-Replaces all editable fields. Same request body and validations as UC-P3.
+### Request
+
+```http
+PUT /payments/1
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "totalAmount": 120.00,
+  "notes": "4 sessions at 30/hr"
+}
+```
+
+Replaces all editable fields. Same field validations as UC-P3.
 
 > Note: `paidAt` is set at creation time and cannot be updated.
 
@@ -147,6 +178,13 @@ Same shape as UC-P2.
 ## UC-P5: Delete a payment
 
 **`DELETE /payments/{id}`**
+
+### Request
+
+```http
+DELETE /payments/1
+Authorization: Bearer <token>
+```
 
 ### What happens
 

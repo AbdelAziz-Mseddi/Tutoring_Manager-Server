@@ -9,6 +9,13 @@ A user can only access students they own (`student.user_id == authenticatedUserI
 
 **`GET /students?page=0&size=20`**
 
+### Request
+
+```http
+GET /students?page=0&size=20
+Authorization: Bearer <token>
+```
+
 ### What happens
 
 1. `StudentController.getAllStudents()` reads `userId` from the `SecurityContext`
@@ -49,6 +56,13 @@ A user can only access students they own (`student.user_id == authenticatedUserI
 
 **`GET /students/{id}`**
 
+### Request
+
+```http
+GET /students/1
+Authorization: Bearer <token>
+```
+
 ### What happens
 
 1. `StudentService.getStudentById(id, userId)` loads the student by id — if not found → `RuntimeException` (404)
@@ -83,9 +97,13 @@ A user can only access students they own (`student.user_id == authenticatedUserI
 
 **`POST /students`**
 
-### Request body
+### Request
 
-```json
+```http
+POST /students
+Authorization: Bearer <token>
+Content-Type: application/json
+
 {
   "firstName": "Bob",
   "lastName": "Dupont",
@@ -135,7 +153,22 @@ A user can only access students they own (`student.user_id == authenticatedUserI
 
 **`PUT /students/{id}`**
 
-Replaces all editable fields. Same request body and validations as UC-S3.
+### Request
+
+```http
+PUT /students/1
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "firstName": "Bob",
+  "lastName": "Dupont",
+  "phone": "0699999999",
+  "email": "bob.new@example.com"
+}
+```
+
+Replaces all editable fields. Same field validations as UC-S3.
 
 ### What happens
 
@@ -162,6 +195,13 @@ Same shape as UC-S2.
 ## UC-S5: Delete a student
 
 **`DELETE /students/{id}`**
+
+### Request
+
+```http
+DELETE /students/1
+Authorization: Bearer <token>
+```
 
 ### What happens
 

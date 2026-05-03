@@ -9,6 +9,13 @@ A user can only access classes they own (`tutoring_class.user_id == authenticate
 
 **`GET /tutoring-classes?page=0&size=20`**
 
+### Request
+
+```http
+GET /tutoring-classes?page=0&size=20
+Authorization: Bearer <token>
+```
+
 ### What happens
 
 1. `TutoringClassController.getAllClasses()` reads `userId` from the `SecurityContext`
@@ -48,6 +55,13 @@ A user can only access classes they own (`tutoring_class.user_id == authenticate
 
 **`GET /tutoring-classes/{id}`**
 
+### Request
+
+```http
+GET /tutoring-classes/1
+Authorization: Bearer <token>
+```
+
 ### What happens
 
 1. Loads the class — 404 if not found
@@ -81,9 +95,13 @@ A user can only access classes they own (`tutoring_class.user_id == authenticate
 
 **`POST /tutoring-classes`**
 
-### Request body
+### Request
 
-```json
+```http
+POST /tutoring-classes
+Authorization: Bearer <token>
+Content-Type: application/json
+
 {
   "name": "Maths Terminale",
   "subject": "Mathematics",
@@ -120,7 +138,21 @@ Same shape as UC-TC2.
 
 **`PUT /tutoring-classes/{id}`**
 
-Replaces all editable fields. Same request body and validations as UC-TC3.
+### Request
+
+```http
+PUT /tutoring-classes/1
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "name": "Maths Terminale",
+  "subject": "Mathematics",
+  "hourlyRate": 35.00
+}
+```
+
+Replaces all editable fields. Same field validations as UC-TC3.
 
 ### What happens
 
@@ -147,6 +179,13 @@ Same shape as UC-TC2.
 ## UC-TC5: Delete a class
 
 **`DELETE /tutoring-classes/{id}`**
+
+### Request
+
+```http
+DELETE /tutoring-classes/1
+Authorization: Bearer <token>
+```
 
 ### What happens
 

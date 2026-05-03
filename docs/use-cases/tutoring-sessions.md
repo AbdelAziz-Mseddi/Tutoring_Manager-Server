@@ -9,6 +9,13 @@ Ownership is verified through the session's enrollment: `session → enrollment 
 
 **`GET /tutoring-sessions?page=0&size=20`**
 
+### Request
+
+```http
+GET /tutoring-sessions?page=0&size=20
+Authorization: Bearer <token>
+```
+
 ### What happens
 
 1. `TutoringSessionController.getAllSessions()` reads `userId` from the `SecurityContext`
@@ -49,6 +56,13 @@ Ownership is verified through the session's enrollment: `session → enrollment 
 
 **`GET /tutoring-sessions/{id}`**
 
+### Request
+
+```http
+GET /tutoring-sessions/1
+Authorization: Bearer <token>
+```
+
 ### What happens
 
 1. Loads the session — 404 if not found
@@ -83,9 +97,13 @@ Ownership is verified through the session's enrollment: `session → enrollment 
 
 **`POST /tutoring-sessions`**
 
-### Request body
+### Request
 
-```json
+```http
+POST /tutoring-sessions
+Authorization: Bearer <token>
+Content-Type: application/json
+
 {
   "enrollmentId": 1,
   "paymentId": null,
@@ -128,7 +146,23 @@ Same shape as UC-TS2.
 
 **`PUT /tutoring-sessions/{id}`**
 
-Replaces all editable fields. Same request body and validations as UC-TS3.
+### Request
+
+```http
+PUT /tutoring-sessions/1
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "enrollmentId": 1,
+  "paymentId": 2,
+  "scheduledAt": "2024-02-01T15:00:00",
+  "durationMin": 60,
+  "notes": "Rescheduled"
+}
+```
+
+Replaces all editable fields. Same field validations as UC-TS3.
 
 ### What happens
 
@@ -155,6 +189,13 @@ Same shape as UC-TS2.
 ## UC-TS5: Delete a session
 
 **`DELETE /tutoring-sessions/{id}`**
+
+### Request
+
+```http
+DELETE /tutoring-sessions/1
+Authorization: Bearer <token>
+```
 
 ### What happens
 

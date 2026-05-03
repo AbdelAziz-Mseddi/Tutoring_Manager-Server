@@ -26,10 +26,29 @@ User
 
 ## Authentication
 
-All endpoints except `POST /auth/register` and `POST /auth/login` require:
+All endpoints except `POST /auth/register` and `POST /auth/login` require the JWT token in every request header.
 
+**Step 1** — get a token from login (or register):
+
+```http
+POST /auth/login
+Content-Type: application/json
+
+{ "email": "alice@example.com", "password": "secret123" }
 ```
-Authorization: Bearer <token>
+
+Response:
+```json
+{ "token": "eyJhbGciOiJIUzI1NiJ9...", "userId": 1 }
 ```
+
+**Step 2** — include that token in every subsequent request:
+
+```http
+GET /students
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9...
+```
+
+You only send the token — no userId, no email. The server extracts the userId from the token itself.
 
 Missing or invalid token → `401 Authentication required`.
