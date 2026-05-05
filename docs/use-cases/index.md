@@ -52,3 +52,5 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9...
 You only send the token — no userId, no email. The server extracts the userId from the token itself.
 
 Missing or invalid token → `401 Authentication required`.
+
+Tokens expire after **24 hours**. Login again to get a fresh one.

@@ -94,3 +94,17 @@ These are the only public endpoints — no JWT required.
 |---|---|
 | `400` | Any required field is blank or email is malformed |
 | `401` | Email not found or password does not match (same message to prevent enumeration) |
+
+---
+
+## Token lifetime
+
+Tokens expire after **24 hours** (`jwt.expiration=86400000` ms in `application.properties`).
+
+You do not need to login before each request. The intended flow is:
+
+1. Login once → receive a token
+2. Store the token and reuse it for all requests
+3. After 24 hours, login again to get a fresh token
+
+Sending an expired token returns `401 Authentication required`.
